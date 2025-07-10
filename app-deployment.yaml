@@ -1,0 +1,66 @@
+# app-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nest-crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nest-crud
+  template:
+    metadata:
+      labels:
+        app: nest-crud
+    spec:
+      containers:
+        - name: nest-crud
+          image: joseedumattioni/nest-crud:latest
+          env:
+            - name: DATABASE_TYPE
+              value: "postgres"
+            - name: DATABASE_HOST
+              value: "postgres"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_USERNAME
+              value: "postgres"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nest-crud-secret
+                  key: DATABASE_PASSWORD
+            - name: DATABASE_NAME
+              value: "nest_crud"
+            - name: DATABASE_AUTOLOADENTITIES
+              value: "1"
+            - name: DATABASE_SYNCHRONIZE
+              value: "1"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                    name: nest-crud-secret
+                    key: JWT_SECRET
+            - name: JWT_TOKEN_AUDIENCE
+              value: "http://localhost:3000"
+            - name: JWT_TOKEN_ISSUER
+              value: "http://localhost:3000"
+            - name: JWT_TTL
+              value: "3600"
+            - name: JWT_REFRESH_TTL
+              value: "86400"
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nest-crud
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30080
+  selector:
+    app: nest-crud

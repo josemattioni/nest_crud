@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MessagesModule } from '../messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../users/users.module';
-import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 import { GlobalConfigModule } from '../global-config/global-config.module';
 import globalConfig from '../global-config/global.config';
 import { AuthModule } from '../auth/auth.module';
@@ -41,7 +39,5 @@ import * as path from 'path';
     GlobalConfigModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

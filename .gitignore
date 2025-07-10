@@ -2,8 +2,11 @@
 /dist
 /node_modules
 /build
-client.rest
 pictures/
+
+# Environment files
+.env
+.env.*
 
 # Logs
 logs
@@ -14,8 +17,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
+# OS files
 .DS_Store
+Thumbs.db
 
 # Tests
 /coverage
@@ -37,12 +41,9 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# Docker volumes and local data
+db_data/
+*.local
 
 # temp directory
 .temp
@@ -54,5 +55,15 @@ pids
 *.seed
 *.pid.lock
 
-# Diagnostic reports (https://nodejs.org/api/report.html)
+# Uploaded/static files
+pictures/
+dev/images/
+
+# Kubernetes secrets
+secret.yaml
+
+# Diagnostic reports
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Misc
+client.rest
